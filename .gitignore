@@ -1,0 +1,13 @@
+# Зависимости (ставятся через npm install, в репозиторий не идут)
+node_modules/
+# Свежая сборка (пересобирается командой npm run build)
+dist/
+# Папка docs/ — ЭТО опубликованная сборка для GitHub Pages, её коммитить НАДО
+# (обновляется вручную: npm run build, затем скопировать dist/* в docs/)
+# Кэш и мусор редакторов
+.vite/
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

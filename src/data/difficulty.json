@@ -1,0 +1,36 @@
+{
+  "comment": "Уровни сложности (переключатель в Настройках, применяется с новой партии).",
+  "comment_bonus": "bonus — сколько СЕКУНД игрового времени даёт результативный ход в идеальном равновесии (Свет = Тьма). Лёгкий 10 — как было всегда; средний и сложный 6.",
+  "comment_drain": "drainEverySec — каждые сколько СЕКУНД РЕАЛЬНОГО времени отнимать время на сложном; drainAmount — сколько секунд игрового времени снимать. 0 — тиканья нет (лёгкий и средний).",
+  "comment_howto": "howto — короткое описание уровня для пункта 6 в «Как играть». title — подпись переключателя в Настройках. Поля *_en — то же по-английски.",
+  "order": ["easy", "medium", "hard"],
+  "levels": {
+    "easy": {
+      "title": "Лёгкий",
+      "title_en": "Easy",
+      "bonus": 10,
+      "drainEverySec": 0,
+      "drainAmount": 0,
+      "howto": "Лёгкий: равновесие даёт +10 сек.",
+      "howto_en": "Easy: balance gives +10 sec."
+    },
+    "medium": {
+      "title": "Средний",
+      "title_en": "Medium",
+      "bonus": 6,
+      "drainEverySec": 0,
+      "drainAmount": 0,
+      "howto": "Средний: равновесие даёт +6 сек.",
+      "howto_en": "Medium: balance gives +6 sec."
+    },
+    "hard": {
+      "title": "Сложный",
+      "title_en": "Hard",
+      "bonus": 6,
+      "drainEverySec": 10,
+      "drainAmount": 1,
+      "howto": "Сложный: равновесие +6 сек, а каждые 10 сек реального времени сгорает 1 сек.",
+      "howto_en": "Hard: balance gives +6 sec, but every 10 sec of real time burns 1 sec."
+    }
+  }
+}

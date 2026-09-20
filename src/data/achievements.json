@@ -1,0 +1,893 @@
+[
+  {
+    "id": "t50",
+    "title": "Первая победа",
+    "group": "Планки",
+    "metric": "tier",
+    "target": 50,
+    "title_en": "First victory",
+    "group_en": "Tiers"
+  },
+  {
+    "id": "t60",
+    "title": "60/60",
+    "group": "Планки",
+    "metric": "tier",
+    "target": 60,
+    "title_en": "60/60",
+    "group_en": "Tiers"
+  },
+  {
+    "id": "t80",
+    "title": "80/80",
+    "group": "Планки",
+    "metric": "tier",
+    "target": 80,
+    "title_en": "80/80",
+    "group_en": "Tiers"
+  },
+  {
+    "id": "t100",
+    "title": "100/100",
+    "group": "Планки",
+    "metric": "tier",
+    "target": 100,
+    "title_en": "100/100",
+    "group_en": "Tiers"
+  },
+  {
+    "id": "t150",
+    "title": "150/150",
+    "group": "Планки",
+    "metric": "tier",
+    "target": 150,
+    "title_en": "150/150",
+    "group_en": "Tiers"
+  },
+  {
+    "id": "g1",
+    "title": "Первая партия",
+    "group": "Партии",
+    "metric": "games",
+    "target": 1,
+    "title_en": "First game",
+    "group_en": "Games"
+  },
+  {
+    "id": "g10",
+    "title": "10 партий",
+    "group": "Партии",
+    "metric": "games",
+    "target": 10,
+    "title_en": "10 games",
+    "group_en": "Games"
+  },
+  {
+    "id": "g25",
+    "title": "25 партий",
+    "group": "Партии",
+    "metric": "games",
+    "target": 25,
+    "title_en": "25 games",
+    "group_en": "Games"
+  },
+  {
+    "id": "g50",
+    "title": "50 партий",
+    "group": "Партии",
+    "metric": "games",
+    "target": 50,
+    "title_en": "50 games",
+    "group_en": "Games"
+  },
+  {
+    "id": "g100",
+    "title": "100 партий",
+    "group": "Партии",
+    "metric": "games",
+    "target": 100,
+    "title_en": "100 games",
+    "group_en": "Games"
+  },
+  {
+    "id": "g200",
+    "title": "200 партий",
+    "group": "Партии",
+    "metric": "games",
+    "target": 200,
+    "title_en": "200 games",
+    "group_en": "Games"
+  },
+  {
+    "id": "g300",
+    "title": "300 партий",
+    "group": "Партии",
+    "metric": "games",
+    "target": 300,
+    "title_en": "300 games",
+    "group_en": "Games"
+  },
+  {
+    "id": "g500",
+    "title": "500 партий",
+    "group": "Партии",
+    "metric": "games",
+    "target": 500,
+    "title_en": "500 games",
+    "group_en": "Games"
+  },
+  {
+    "id": "g750",
+    "title": "750 партий",
+    "group": "Партии",
+    "metric": "games",
+    "target": 750,
+    "title_en": "750 games",
+    "group_en": "Games"
+  },
+  {
+    "id": "g1000",
+    "title": "1000 партий",
+    "group": "Партии",
+    "metric": "games",
+    "target": 1000,
+    "title_en": "1000 games",
+    "group_en": "Games"
+  },
+  {
+    "id": "g1500",
+    "title": "1500 партий",
+    "group": "Партии",
+    "metric": "games",
+    "target": 1500,
+    "title_en": "1500 games",
+    "group_en": "Games"
+  },
+  {
+    "id": "g2000",
+    "title": "2000 партий",
+    "group": "Партии",
+    "metric": "games",
+    "target": 2000,
+    "title_en": "2000 games",
+    "group_en": "Games"
+  },
+  {
+    "id": "w5",
+    "title": "5 побед",
+    "group": "Победы",
+    "metric": "wins",
+    "target": 5,
+    "title_en": "5 wins",
+    "group_en": "Wins"
+  },
+  {
+    "id": "w10",
+    "title": "10 побед",
+    "group": "Победы",
+    "metric": "wins",
+    "target": 10,
+    "title_en": "10 wins",
+    "group_en": "Wins"
+  },
+  {
+    "id": "w25",
+    "title": "25 побед",
+    "group": "Победы",
+    "metric": "wins",
+    "target": 25,
+    "title_en": "25 wins",
+    "group_en": "Wins"
+  },
+  {
+    "id": "w50",
+    "title": "50 побед",
+    "group": "Победы",
+    "metric": "wins",
+    "target": 50,
+    "title_en": "50 wins",
+    "group_en": "Wins"
+  },
+  {
+    "id": "w100",
+    "title": "100 побед",
+    "group": "Победы",
+    "metric": "wins",
+    "target": 100,
+    "title_en": "100 wins",
+    "group_en": "Wins"
+  },
+  {
+    "id": "w150",
+    "title": "150 побед",
+    "group": "Победы",
+    "metric": "wins",
+    "target": 150,
+    "title_en": "150 wins",
+    "group_en": "Wins"
+  },
+  {
+    "id": "w200",
+    "title": "200 побед",
+    "group": "Победы",
+    "metric": "wins",
+    "target": 200,
+    "title_en": "200 wins",
+    "group_en": "Wins"
+  },
+  {
+    "id": "w300",
+    "title": "300 побед",
+    "group": "Победы",
+    "metric": "wins",
+    "target": 300,
+    "title_en": "300 wins",
+    "group_en": "Wins"
+  },
+  {
+    "id": "w400",
+    "title": "400 побед",
+    "group": "Победы",
+    "metric": "wins",
+    "target": 400,
+    "title_en": "400 wins",
+    "group_en": "Wins"
+  },
+  {
+    "id": "w500",
+    "title": "500 побед",
+    "group": "Победы",
+    "metric": "wins",
+    "target": 500,
+    "title_en": "500 wins",
+    "group_en": "Wins"
+  },
+  {
+    "id": "s2",
+    "title": "2 победы подряд",
+    "group": "Серии побед",
+    "metric": "bestStreak",
+    "target": 2,
+    "title_en": "2 wins in a row",
+    "group_en": "Win streaks"
+  },
+  {
+    "id": "s3",
+    "title": "3 победы подряд",
+    "group": "Серии побед",
+    "metric": "bestStreak",
+    "target": 3,
+    "title_en": "3 wins in a row",
+    "group_en": "Win streaks"
+  },
+  {
+    "id": "s5",
+    "title": "5 побед подряд",
+    "group": "Серии побед",
+    "metric": "bestStreak",
+    "target": 5,
+    "title_en": "5 wins in a row",
+    "group_en": "Win streaks"
+  },
+  {
+    "id": "s7",
+    "title": "7 побед подряд",
+    "group": "Серии побед",
+    "metric": "bestStreak",
+    "target": 7,
+    "title_en": "7 wins in a row",
+    "group_en": "Win streaks"
+  },
+  {
+    "id": "s10",
+    "title": "10 побед подряд",
+    "group": "Серии побед",
+    "metric": "bestStreak",
+    "target": 10,
+    "title_en": "10 wins in a row",
+    "group_en": "Win streaks"
+  },
+  {
+    "id": "s15",
+    "title": "15 побед подряд",
+    "group": "Серии побед",
+    "metric": "bestStreak",
+    "target": 15,
+    "title_en": "15 wins in a row",
+    "group_en": "Win streaks"
+  },
+  {
+    "id": "s20",
+    "title": "20 побед подряд",
+    "group": "Серии побед",
+    "metric": "bestStreak",
+    "target": 20,
+    "title_en": "20 wins in a row",
+    "group_en": "Win streaks"
+  },
+  {
+    "id": "s30",
+    "title": "30 побед подряд",
+    "group": "Серии побед",
+    "metric": "bestStreak",
+    "target": 30,
+    "title_en": "30 wins in a row",
+    "group_en": "Win streaks"
+  },
+  {
+    "id": "e1",
+    "title": "Первое эхо",
+    "group": "Эхо",
+    "metric": "echoUses",
+    "target": 1,
+    "title_en": "First echo",
+    "group_en": "Echo"
+  },
+  {
+    "id": "e10",
+    "title": "10 эхо",
+    "group": "Эхо",
+    "metric": "echoUses",
+    "target": 10,
+    "title_en": "10 echoes",
+    "group_en": "Echo"
+  },
+  {
+    "id": "e25",
+    "title": "25 эхо",
+    "group": "Эхо",
+    "metric": "echoUses",
+    "target": 25,
+    "title_en": "25 echoes",
+    "group_en": "Echo"
+  },
+  {
+    "id": "e50",
+    "title": "50 эхо",
+    "group": "Эхо",
+    "metric": "echoUses",
+    "target": 50,
+    "title_en": "50 echoes",
+    "group_en": "Echo"
+  },
+  {
+    "id": "e100",
+    "title": "100 эхо",
+    "group": "Эхо",
+    "metric": "echoUses",
+    "target": 100,
+    "title_en": "100 echoes",
+    "group_en": "Echo"
+  },
+  {
+    "id": "e200",
+    "title": "200 эхо",
+    "group": "Эхо",
+    "metric": "echoUses",
+    "target": 200,
+    "title_en": "200 echoes",
+    "group_en": "Echo"
+  },
+  {
+    "id": "e350",
+    "title": "350 эхо",
+    "group": "Эхо",
+    "metric": "echoUses",
+    "target": 350,
+    "title_en": "350 echoes",
+    "group_en": "Echo"
+  },
+  {
+    "id": "e500",
+    "title": "500 эхо",
+    "group": "Эхо",
+    "metric": "echoUses",
+    "target": 500,
+    "title_en": "500 echoes",
+    "group_en": "Echo"
+  },
+  {
+    "id": "e750",
+    "title": "750 эхо",
+    "group": "Эхо",
+    "metric": "echoUses",
+    "target": 750,
+    "title_en": "750 echoes",
+    "group_en": "Echo"
+  },
+  {
+    "id": "e1000",
+    "title": "1000 эхо",
+    "group": "Эхо",
+    "metric": "echoUses",
+    "target": 1000,
+    "title_en": "1000 echoes",
+    "group_en": "Echo"
+  },
+  {
+    "id": "d1",
+    "title": "Задача дня",
+    "group": "Задача дня",
+    "metric": "dailyWins",
+    "target": 1,
+    "title_en": "Daily task",
+    "group_en": "Daily task"
+  },
+  {
+    "id": "d2",
+    "title": "2 задачи дня",
+    "group": "Задача дня",
+    "metric": "dailyWins",
+    "target": 2,
+    "title_en": "2 daily tasks",
+    "group_en": "Daily task"
+  },
+  {
+    "id": "d3",
+    "title": "3 задачи дня",
+    "group": "Задача дня",
+    "metric": "dailyWins",
+    "target": 3,
+    "title_en": "3 daily tasks",
+    "group_en": "Daily task"
+  },
+  {
+    "id": "d5",
+    "title": "5 задач дня",
+    "group": "Задача дня",
+    "metric": "dailyWins",
+    "target": 5,
+    "title_en": "5 daily tasks",
+    "group_en": "Daily task"
+  },
+  {
+    "id": "d7",
+    "title": "7 задач дня",
+    "group": "Задача дня",
+    "metric": "dailyWins",
+    "target": 7,
+    "title_en": "7 daily tasks",
+    "group_en": "Daily task"
+  },
+  {
+    "id": "d15",
+    "title": "15 задач дня",
+    "group": "Задача дня",
+    "metric": "dailyWins",
+    "target": 15,
+    "title_en": "15 daily tasks",
+    "group_en": "Daily task"
+  },
+  {
+    "id": "d30",
+    "title": "30 задач дня",
+    "group": "Задача дня",
+    "metric": "dailyWins",
+    "target": 30,
+    "title_en": "30 daily tasks",
+    "group_en": "Daily task"
+  },
+  {
+    "id": "d60",
+    "title": "60 задач дня",
+    "group": "Задача дня",
+    "metric": "dailyWins",
+    "target": 60,
+    "title_en": "60 daily tasks",
+    "group_en": "Daily task"
+  },
+  {
+    "id": "l2",
+    "title": "Серия входов: 2",
+    "group": "Входы",
+    "metric": "loginStreak",
+    "target": 2,
+    "title_en": "Login streak: 2",
+    "group_en": "Logins"
+  },
+  {
+    "id": "l3",
+    "title": "Серия входов: 3",
+    "group": "Входы",
+    "metric": "loginStreak",
+    "target": 3,
+    "title_en": "Login streak: 3",
+    "group_en": "Logins"
+  },
+  {
+    "id": "l5",
+    "title": "Серия входов: 5",
+    "group": "Входы",
+    "metric": "loginStreak",
+    "target": 5,
+    "title_en": "Login streak: 5",
+    "group_en": "Logins"
+  },
+  {
+    "id": "l7",
+    "title": "Серия входов: 7",
+    "group": "Входы",
+    "metric": "loginStreak",
+    "target": 7,
+    "title_en": "Login streak: 7",
+    "group_en": "Logins"
+  },
+  {
+    "id": "l10",
+    "title": "Серия входов: 10",
+    "group": "Входы",
+    "metric": "loginStreak",
+    "target": 10,
+    "title_en": "Login streak: 10",
+    "group_en": "Logins"
+  },
+  {
+    "id": "l14",
+    "title": "Серия входов: 14",
+    "group": "Входы",
+    "metric": "loginStreak",
+    "target": 14,
+    "title_en": "Login streak: 14",
+    "group_en": "Logins"
+  },
+  {
+    "id": "l21",
+    "title": "Серия входов: 21",
+    "group": "Входы",
+    "metric": "loginStreak",
+    "target": 21,
+    "title_en": "Login streak: 21",
+    "group_en": "Logins"
+  },
+  {
+    "id": "l30",
+    "title": "Серия входов: 30",
+    "group": "Входы",
+    "metric": "loginStreak",
+    "target": 30,
+    "title_en": "Login streak: 30",
+    "group_en": "Logins"
+  },
+  {
+    "id": "l60",
+    "title": "Серия входов: 60",
+    "group": "Входы",
+    "metric": "loginStreak",
+    "target": 60,
+    "title_en": "Login streak: 60",
+    "group_en": "Logins"
+  },
+  {
+    "id": "l100",
+    "title": "Серия входов: 100",
+    "group": "Входы",
+    "metric": "loginStreak",
+    "target": 100,
+    "title_en": "Login streak: 100",
+    "group_en": "Logins"
+  },
+  {
+    "id": "c50",
+    "title": "50 линий",
+    "group": "Линии",
+    "metric": "linesCleared",
+    "target": 50,
+    "title_en": "50 lines",
+    "group_en": "Lines"
+  },
+  {
+    "id": "c100",
+    "title": "100 линий",
+    "group": "Линии",
+    "metric": "linesCleared",
+    "target": 100,
+    "title_en": "100 lines",
+    "group_en": "Lines"
+  },
+  {
+    "id": "c200",
+    "title": "200 линий",
+    "group": "Линии",
+    "metric": "linesCleared",
+    "target": 200,
+    "title_en": "200 lines",
+    "group_en": "Lines"
+  },
+  {
+    "id": "c500",
+    "title": "500 линий",
+    "group": "Линии",
+    "metric": "linesCleared",
+    "target": 500,
+    "title_en": "500 lines",
+    "group_en": "Lines"
+  },
+  {
+    "id": "c1000",
+    "title": "1000 линий",
+    "group": "Линии",
+    "metric": "linesCleared",
+    "target": 1000,
+    "title_en": "1000 lines",
+    "group_en": "Lines"
+  },
+  {
+    "id": "c2000",
+    "title": "2000 линий",
+    "group": "Линии",
+    "metric": "linesCleared",
+    "target": 2000,
+    "title_en": "2000 lines",
+    "group_en": "Lines"
+  },
+  {
+    "id": "c3500",
+    "title": "3500 линий",
+    "group": "Линии",
+    "metric": "linesCleared",
+    "target": 3500,
+    "title_en": "3500 lines",
+    "group_en": "Lines"
+  },
+  {
+    "id": "c5000",
+    "title": "5000 линий",
+    "group": "Линии",
+    "metric": "linesCleared",
+    "target": 5000,
+    "title_en": "5000 lines",
+    "group_en": "Lines"
+  },
+  {
+    "id": "c7500",
+    "title": "7500 линий",
+    "group": "Линии",
+    "metric": "linesCleared",
+    "target": 7500,
+    "title_en": "7500 lines",
+    "group_en": "Lines"
+  },
+  {
+    "id": "c10000",
+    "title": "10000 линий",
+    "group": "Линии",
+    "metric": "linesCleared",
+    "target": 10000,
+    "title_en": "10000 lines",
+    "group_en": "Lines"
+  },
+  {
+    "id": "x5",
+    "title": "Линия из 5",
+    "group": "Длинные линии",
+    "metric": "maxLine",
+    "target": 5,
+    "title_en": "Line of 5",
+    "group_en": "Long lines"
+  },
+  {
+    "id": "x6",
+    "title": "Линия из 6",
+    "group": "Длинные линии",
+    "metric": "maxLine",
+    "target": 6,
+    "title_en": "Line of 6",
+    "group_en": "Long lines"
+  },
+  {
+    "id": "x7",
+    "title": "Линия из 7",
+    "group": "Длинные линии",
+    "metric": "maxLine",
+    "target": 7,
+    "title_en": "Line of 7",
+    "group_en": "Long lines"
+  },
+  {
+    "id": "x8",
+    "title": "Линия из 8",
+    "group": "Длинные линии",
+    "metric": "maxLine",
+    "target": 8,
+    "title_en": "Line of 8",
+    "group_en": "Long lines"
+  },
+  {
+    "id": "r1",
+    "title": "Первая награда",
+    "group": "Награды",
+    "metric": "rewardsClaimed",
+    "target": 1,
+    "title_en": "First reward",
+    "group_en": "Rewards"
+  },
+  {
+    "id": "r3",
+    "title": "3 награды",
+    "group": "Награды",
+    "metric": "rewardsClaimed",
+    "target": 3,
+    "title_en": "3 rewards",
+    "group_en": "Rewards"
+  },
+  {
+    "id": "r5",
+    "title": "5 наград",
+    "group": "Награды",
+    "metric": "rewardsClaimed",
+    "target": 5,
+    "title_en": "5 rewards",
+    "group_en": "Rewards"
+  },
+  {
+    "id": "r7",
+    "title": "7 наград",
+    "group": "Награды",
+    "metric": "rewardsClaimed",
+    "target": 7,
+    "title_en": "7 rewards",
+    "group_en": "Rewards"
+  },
+  {
+    "id": "r15",
+    "title": "15 наград",
+    "group": "Награды",
+    "metric": "rewardsClaimed",
+    "target": 15,
+    "title_en": "15 rewards",
+    "group_en": "Rewards"
+  },
+  {
+    "id": "r30",
+    "title": "30 наград",
+    "group": "Награды",
+    "metric": "rewardsClaimed",
+    "target": 30,
+    "title_en": "30 rewards",
+    "group_en": "Rewards"
+  },
+  {
+    "id": "v250",
+    "title": "Очков за всё время: 250",
+    "group": "Очки за всё время",
+    "metric": "totalScore",
+    "target": 250,
+    "title_en": "Total score: 250",
+    "group_en": "Total score"
+  },
+  {
+    "id": "v500",
+    "title": "Очков за всё время: 500",
+    "group": "Очки за всё время",
+    "metric": "totalScore",
+    "target": 500,
+    "title_en": "Total score: 500",
+    "group_en": "Total score"
+  },
+  {
+    "id": "v1000",
+    "title": "Очков за всё время: 1000",
+    "group": "Очки за всё время",
+    "metric": "totalScore",
+    "target": 1000,
+    "title_en": "Total score: 1000",
+    "group_en": "Total score"
+  },
+  {
+    "id": "v2500",
+    "title": "Очков за всё время: 2500",
+    "group": "Очки за всё время",
+    "metric": "totalScore",
+    "target": 2500,
+    "title_en": "Total score: 2500",
+    "group_en": "Total score"
+  },
+  {
+    "id": "v5000",
+    "title": "Очков за всё время: 5000",
+    "group": "Очки за всё время",
+    "metric": "totalScore",
+    "target": 5000,
+    "title_en": "Total score: 5000",
+    "group_en": "Total score"
+  },
+  {
+    "id": "v10000",
+    "title": "Очков за всё время: 10000",
+    "group": "Очки за всё время",
+    "metric": "totalScore",
+    "target": 10000,
+    "title_en": "Total score: 10000",
+    "group_en": "Total score"
+  },
+  {
+    "id": "v20000",
+    "title": "Очков за всё время: 20000",
+    "group": "Очки за всё время",
+    "metric": "totalScore",
+    "target": 20000,
+    "title_en": "Total score: 20000",
+    "group_en": "Total score"
+  },
+  {
+    "id": "v50000",
+    "title": "Очков за всё время: 50000",
+    "group": "Очки за всё время",
+    "metric": "totalScore",
+    "target": 50000,
+    "title_en": "Total score: 50000",
+    "group_en": "Total score"
+  },
+  {
+    "id": "v75000",
+    "title": "Очков за всё время: 75000",
+    "group": "Очки за всё время",
+    "metric": "totalScore",
+    "target": 75000,
+    "title_en": "Total score: 75000",
+    "group_en": "Total score"
+  },
+  {
+    "id": "v100000",
+    "title": "Очков за всё время: 100000",
+    "group": "Очки за всё время",
+    "metric": "totalScore",
+    "target": 100000,
+    "title_en": "Total score: 100000",
+    "group_en": "Total score"
+  },
+  {
+    "id": "b60",
+    "title": "Раунд 60",
+    "group": "Рекордные раунды",
+    "metric": "bestRound",
+    "target": 60,
+    "title_en": "Round 60",
+    "group_en": "Best rounds"
+  },
+  {
+    "id": "b80",
+    "title": "Раунд 80",
+    "group": "Рекордные раунды",
+    "metric": "bestRound",
+    "target": 80,
+    "title_en": "Round 80",
+    "group_en": "Best rounds"
+  },
+  {
+    "id": "b100",
+    "title": "Раунд 100",
+    "group": "Рекордные раунды",
+    "metric": "bestRound",
+    "target": 100,
+    "title_en": "Round 100",
+    "group_en": "Best rounds"
+  },
+  {
+    "id": "b120",
+    "title": "Раунд 120",
+    "group": "Рекордные раунды",
+    "metric": "bestRound",
+    "target": 120,
+    "title_en": "Round 120",
+    "group_en": "Best rounds"
+  },
+  {
+    "id": "b150",
+    "title": "Раунд 150",
+    "group": "Рекордные раунды",
+    "metric": "bestRound",
+    "target": 150,
+    "title_en": "Round 150",
+    "group_en": "Best rounds"
+  },
+  {
+    "id": "b200",
+    "title": "Раунд 200",
+    "group": "Рекордные раунды",
+    "metric": "bestRound",
+    "target": 200,
+    "title_en": "Round 200",
+    "group_en": "Best rounds"
+  }
+]

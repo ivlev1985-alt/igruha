@@ -1,0 +1,11 @@
+{
+  "comment": "Задача дня (Main_menu.md, зона 4 + пункт 4). Цель генерируется из даты: у всех одна и та же. Поля *_en — то же по-английски.",
+  "toast": "Задача дня: поле одинаковое у всех",
+  "toast_en": "Daily task: same board for everyone",
+  "taskTemplate": "Набрать {t}/{t} до {flip}.",
+  "taskTemplate_en": "Score {t}/{t} before {flip}.",
+  "attemptsTemplate": "Попытки: {used}/{total}.",
+  "attemptsTemplate_en": "Attempts: {used}/{total}.",
+  "flipWords": ["первого переворота мира", "второго переворота мира", "третьего переворота мира"],
+  "flipWords_en": ["the first world flip", "the second world flip", "the third world flip"]
+}

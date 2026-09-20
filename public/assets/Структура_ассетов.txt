@@ -1,0 +1,17 @@
+public/assets/
+├── sprites/
+│   ├── gems/                      ← камни, строго эти 6 имён:
+│   │   ├── gem_red_face.png       ← красный лицом (СВЕТ)
+│   │   ├── gem_red_back.png       ← красный изнанкой (ТЬМА)
+│   │   ├── gem_white_face.png
+│   │   ├── gem_white_back.png
+│   │   ├── gem_black_face.png
+│   │   └── gem_black_back.png
+│   ├── menu/
+│   │   ├── menu_bg.png            ← фон меню (1920×1080; вертикаль — menu_bg_portrait.png, скажешь — подключу)
+│   │   └── menu_divider.png       ← красная линия под заголовком (широкая, ~600×12)
+│   └── game/
+│       └── game_bg.png            ← фон игрового окна (1920×1080)
+└── sounds/                        ← имена = ключи, уже заведены:
+    ├── tap.mp3, drag.mp3, line.mp3, echo.mp3
+    ├── flip.mp3, tick.mp3, victory.mp3, defeat.mp3
