@@ -15,6 +15,7 @@ import { AchievementsScene } from './scenes/AchievementsScene';
 import { RatingScene } from './scenes/RatingScene';
 import { currentLang } from './utils/lang';
 import { initPlatform } from './utils/platform';
+import { SoundSystem } from './systems/SoundSystem';
 
 // Базовая конфигурация Phaser.
 // Scale.FIT + фиксированная сцена: координаты и размеры элементов
@@ -48,6 +49,10 @@ const game = new Phaser.Game(config);
 // Площадка определяется сама (Яндекс при живом SDK, иначе локально).
 // Не ждём: игра стартует сразу, апгрейд бэкенда догонит.
 void initPlatform();
+
+// Звук: пробуем фоновую музыку (до первого жеста браузер запрещает —
+// дальше договоримся по pointerdown внутри SoundSystem.boot).
+SoundSystem.boot();
 
 // Язык страницы — текущий язык игры (для скринридеров и поисковиков)
 try {

@@ -12,7 +12,7 @@ import { loadDifficulty, saveDifficulty, nextDifficulty } from '../utils/storage
 import { difficultyTitle } from '../utils/difficulty';
 import { rewardStatus } from '../utils/daily';
 import { effectiveSkin, nextOpenSkin, setSkin, isSkinUnlocked, unlockStreak } from '../utils/skins';
-import { t, currentLang, saveLang, nextLang, langName, skinName } from '../utils/lang';
+import { t, currentLang, saveLang, nextLang, langName, skinName, soundModeName } from '../utils/lang';
 import { getPlatform } from '../utils/platform';
 import { onEsc } from '../utils/keyboard';
 
@@ -41,8 +41,7 @@ export class SettingsScene extends Phaser.Scene {
       .setInteractive({ useHandCursor: true });
     this.refreshSound();
     this.soundText.on('pointerdown', () => {
-      SoundSystem.setEnabled(!SoundSystem.isEnabled());
-      getPlatform().saveCloud();
+      SoundSystem.setMode(SoundSystem.nextMode(SoundSystem.getMode()));
       this.refreshSound();
     });
 
@@ -120,7 +119,7 @@ export class SettingsScene extends Phaser.Scene {
   }
 
   private refreshSound(): void {
-    this.soundText.setText(t('setSound', { v: SoundSystem.isEnabled() ? t('on') : t('off') }));
+    this.soundText.setText(t('setSound', { v: soundModeName(SoundSystem.getMode()) }));
   }
 
   private refreshLabels(): void {

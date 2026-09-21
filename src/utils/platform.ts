@@ -8,6 +8,7 @@
 // ============================================================
 import { t } from './lang';
 import { localRating, type RatingRow } from './rating';
+import { SoundSystem } from '../systems/SoundSystem';
 
 // Имя доски в консоли разработчика Яндекса (создать вручную!):
 // shortName доски с лучшим раундом. Без доски в консоли методы
@@ -249,6 +250,7 @@ class YandexPlatform implements Platform {
   showFullscreenAdv(onClose: () => void): void {
     const done = (): void => {
       try {
+        SoundSystem.setMusicDucked(false); // вернуть музыку после рекламы
         onClose();
       } catch {
         // Колбэк игры не должен ронять площадку
@@ -259,6 +261,7 @@ class YandexPlatform implements Platform {
         done();
         return;
       }
+      SoundSystem.setMusicDucked(true); // музыка молчит под рекламой
       this.ysdk.adv.showFullscreenAdv({
         callbacks: {
           onClose: done,
@@ -287,6 +290,7 @@ class YandexPlatform implements Platform {
 
   // Наградное видео за +1 попытку дня: награда только за досмотр.
   // Закрыл раньше или ошибка — onRewarded не зовём, попытка не даётся.
+  // Музыка молчит под рекламой в любом исходе.
   showRewardedVideo(onRewarded: () => void): void {
     const grant = (): void => {
       try {
@@ -295,19 +299,28 @@ class YandexPlatform implements Platform {
         // Колбэк игры не должен ронять площадку
       }
     };
+    const unduck = (): void => {
+      try {
+        SoundSystem.setMusicDucked(false);
+      } catch {
+        // Тихо игнорируем
+      }
+    };
     try {
       if (!this.ysdk.adv || typeof this.ysdk.adv.showRewardedVideo !== 'function') {
         grant(); // тестовый режим без рекламы — сразу награда
         return;
       }
+      SoundSystem.setMusicDucked(true);
       this.ysdk.adv.showRewardedVideo({
         callbacks: {
           onRewarded: grant,
-          onClose: () => { /* без награды — просто закрыли */ },
-          onError: () => { /* без награды */ },
+          onClose: unduck,
+          onError: unduck,
         },
       });
     } catch {
+      unduck();
       grant();
     }
   }

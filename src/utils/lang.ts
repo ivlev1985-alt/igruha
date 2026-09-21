@@ -162,6 +162,10 @@ const STR: Record<string, { ru: string; en: string }> = {
   setStones: { ru: '[ Камни: {name} ]', en: '[ Stones: {name} ]' },
   setDiff: { ru: '[ Сложность: {t} ]', en: '[ Difficulty: {t} ]' },
   setLang: { ru: '[ Язык: {l} ]', en: '[ Language: {l} ]' },
+  sndOff: { ru: 'Выкл.', en: 'Off' },
+  sndSystem: { ru: 'Системные', en: 'System' },
+  sndMusic: { ru: 'Музыка', en: 'Music' },
+  sndAll: { ru: 'Музыка и системные', en: 'Music & system' },
   skinClassic: { ru: 'Классические', en: 'Classic' },
   skinMystic: { ru: 'Мистические', en: 'Mystic' },
   skinStone: { ru: 'Каменные', en: 'Stone' },
@@ -185,6 +189,11 @@ export function t(key: string, vars?: Vars): string {
 // Название сета камней на текущем языке (замена storage.skinTitle)
 export function skinName(s: 'classic' | 'mystic' | 'stone'): string {
   return s === 'mystic' ? t('skinMystic') : s === 'stone' ? t('skinStone') : t('skinClassic');
+}
+
+// Название режима звука на текущем языке
+export function soundModeName(m: 'off' | 'system' | 'music' | 'all'): string {
+  return m === 'off' ? t('sndOff') : m === 'system' ? t('sndSystem') : m === 'music' ? t('sndMusic') : t('sndAll');
 }
 
 // Слово «секунд» с правильным окончанием (таймер в игре)
