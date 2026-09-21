@@ -44,7 +44,7 @@ export class VictoryScene extends Phaser.Scene {
       .text(w / 2, h / 2 + 40, t('vAgain'), { color: '#d7263d', fontSize: '26px' })
       .setOrigin(0.5)
       .setInteractive({ useHandCursor: true });
-    again.on('pointerdown', () => this.scene.start(SCENES.GAME));
+    again.on('pointerdown', () => this.scene.start(SCENES.GAME, { daily: false }));
     // Выход в меню — так же, но белым
     const exit = this.add
       .text(w / 2, h / 2 + 90, t('exitBtn'), { color: '#ffffff', fontSize: '26px' })

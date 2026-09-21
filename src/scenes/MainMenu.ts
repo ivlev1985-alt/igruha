@@ -340,7 +340,10 @@ export class MainMenu extends Phaser.Scene {
       const playH = playSize * 2;
       const playCy = playTop / 1.1 + playH / 2;
       const play = this.makeTextButton(cx, playCy, t('play'), playSize, '#d7263d', true, () => {
-        this.scene.start(SCENES.GAME);
+        // ВАЖНО: daily:false явно! Phaser НЕ сбрасывает settings.data при
+        // старте без данных — после задачи дня обычная игра получила бы
+        // старый {daily:true} и надпись задачи над полем (баг).
+        this.scene.start(SCENES.GAME, { daily: false });
       });
       play.setAlpha(0);
       // Пункт 1: рамка по ширине как у кнопок ниже
