@@ -1174,6 +1174,7 @@ export class GameScene extends Phaser.Scene {
     this.over = true;
     getPlatform().gameStop(); // партия кончилась (вызывается один раз)
     notifyGameEnded(); // следующее меню — пауза для полноэкранной
+    getPlatform().saveCloud(); // итог в облако (с дебаунсом, тихо)
     if (this.dailyMode) {
       finishDaily(won, this.bestSession);
       const d = recordDaily(won);

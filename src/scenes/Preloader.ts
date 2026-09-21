@@ -9,6 +9,7 @@ import Phaser from 'phaser';
 import { SCENES } from '../utils/constants';
 import { gameConfig } from '../config/gameConfig';
 import { GEM_COLORS_SPRITE, GEM_SIDES_SPRITE, TEX, langTex } from '../utils/assets';
+import { awaitPlatform, getPlatform } from '../utils/platform';
 
 export class Preloader extends Phaser.Scene {
   // Картинки появляются, когда их файлы реально приехали
@@ -80,7 +81,14 @@ export class Preloader extends Phaser.Scene {
   }
 
   create(): void {
-    this.scene.start(SCENES.MAIN_MENU);
+    // Сначала облако (если Яндекс и там новее), потом меню.
+    // Всё с потолками: меню стартует в любом случае.
+    awaitPlatform()
+      .then(() => getPlatform().loadCloud())
+      .then(
+        () => this.scene.start(SCENES.MAIN_MENU),
+        () => this.scene.start(SCENES.MAIN_MENU),
+      );
   }
 
   // Геометрия заставки от размера экрана (квадрат 1740x1740 — contain,

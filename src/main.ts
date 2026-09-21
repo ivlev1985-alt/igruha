@@ -20,15 +20,14 @@ import { initPlatform } from './utils/platform';
 // Scale.FIT + фиксированная сцена: координаты и размеры элементов
 // ОДИНАКОВЫ на любом мониторе (ноутбук, 4К) — меняется только общий
 // масштаб картинки. Чёрные поля по бокам сливаются с фоном.
-// Ориентация: ландшафт 1280x720, портрет 720x1280 (см. ниже).
+// Дизайн ВСЕГДА портретный 810x1440 (решение: альбомная вёрстка
+// налезала друг на друга). На широких экранах игра стоит узкой
+// колонкой по центру — чёрные поля по бокам сливаются с фоном.
 const LAND_W = 1440;
 const LAND_H = 810;
 
-// Стартовый размер — сразу по ориентации окна, иначе Preloader
-// рисует в landscape-координатах и на портретном телефоне всё съезжает
-// вправо до первого переворота. Повороты дальше ловит applyOrientation.
-const portraitFirst = typeof window !== 'undefined' && window.innerWidth < window.innerHeight;
-
+// Стартовый размер — портретный всегда, без проверки ориентации.
+// Повороты ничего не меняют (дизайн один), поэтому applyOrientation убран.
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO, // WebGL, с откатом на Canvas
   parent: 'game', // div из index.html
@@ -36,8 +35,8 @@ const config: Phaser.Types.Core.GameConfig = {
   scale: {
     mode: Phaser.Scale.FIT, // вписать сцену целиком, без деформации
     autoCenter: Phaser.Scale.CENTER_BOTH, // поля по бокам — чёрные
-    width: portraitFirst ? LAND_H : LAND_W,
-    height: portraitFirst ? LAND_W : LAND_H,
+    width: LAND_H,
+    height: LAND_W,
   },
   scene: [Preloader, MainMenu, HowToScene, SettingsScene, AchievementsScene, RatingScene, GameScene, UIScene, VictoryScene, GameOverScene],
   disableContextMenu: true, // долгое нажатие не вызывает меню (требование Yandex)
@@ -56,20 +55,3 @@ try {
 } catch {
   // Не браузер — пропускаем
 }
-
-// Ориентация: подбираем дизайн-размер под окно (и при переворотах).
-// Сцены перестраиваются сами через resize (партия при этом НЕ теряется:
-// логика поля живёт отдельно от отрисовки).
-game.events.once(Phaser.Core.Events.READY, () => {
-  const applyOrientation = (): void => {
-    const portrait = window.innerWidth < window.innerHeight;
-    const w = portrait ? LAND_H : LAND_W;
-    const h = portrait ? LAND_W : LAND_H;
-    const size = game.scale.gameSize;
-    if (size.width !== w || size.height !== h) {
-      game.scale.setGameSize(w, h);
-    }
-  };
-  applyOrientation();
-  game.scale.on('orientationchange', applyOrientation);
-});

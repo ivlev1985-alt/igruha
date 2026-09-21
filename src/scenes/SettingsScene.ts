@@ -13,6 +13,7 @@ import { difficultyTitle } from '../utils/difficulty';
 import { rewardStatus } from '../utils/daily';
 import { effectiveSkin, nextOpenSkin, setSkin, isSkinUnlocked, unlockStreak } from '../utils/skins';
 import { t, currentLang, saveLang, nextLang, langName, skinName } from '../utils/lang';
+import { getPlatform } from '../utils/platform';
 import { onEsc } from '../utils/keyboard';
 
 export class SettingsScene extends Phaser.Scene {
@@ -41,6 +42,7 @@ export class SettingsScene extends Phaser.Scene {
     this.refreshSound();
     this.soundText.on('pointerdown', () => {
       SoundSystem.setEnabled(!SoundSystem.isEnabled());
+      getPlatform().saveCloud();
       this.refreshSound();
     });
 
@@ -52,6 +54,7 @@ export class SettingsScene extends Phaser.Scene {
     this.refreshLabels();
     this.labelsText.on('pointerdown', () => {
       setLabelsEnabled(!loadLabelsEnabled());
+      getPlatform().saveCloud();
       this.refreshLabels();
     });
 
@@ -64,6 +67,7 @@ export class SettingsScene extends Phaser.Scene {
     this.refreshSkin();
     this.skinText.on('pointerdown', () => {
       setSkin(nextOpenSkin());
+      getPlatform().saveCloud();
       this.refreshSkin();
     });
     // Подсказка про закрытые сеты (серая, мелкая — основной шаг не ломает)
@@ -81,6 +85,7 @@ export class SettingsScene extends Phaser.Scene {
     this.refreshDiff();
     this.diffText.on('pointerdown', () => {
       saveDifficulty(nextDifficulty(loadDifficulty()));
+      getPlatform().saveCloud();
       this.refreshDiff();
     });
 
@@ -95,6 +100,7 @@ export class SettingsScene extends Phaser.Scene {
     this.refreshLang();
     this.langText.on('pointerdown', () => {
       saveLang(nextLang(currentLang()));
+      getPlatform().saveCloud();
       this.scene.restart();
     });
 

@@ -46,7 +46,6 @@ export const SAVE_KEYS = {
   ACH: 'tct_ach', // открытые достижения
   DAILY: 'tct_daily', // задача дня
   REWARD: 'tct_reward', // серия ежедневных наград
-  PASSES: 'tct_passes', // рекламные пропуски (задел под rewarded-рекламу)
 } as const;
 
 // Поддерживаемые языки (GDD 5.5)

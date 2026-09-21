@@ -12,8 +12,8 @@ import { gameConfig } from '../config/gameConfig';
 import { loadStats, touchLogin, addRewardClaim } from '../utils/stats';
 import { ACHIEVEMENTS, loadUnlocked, syncAchievements, countUnlocked, achTitle, achGroup } from '../systems/Achievements';
 import {
-  dayStr, yesterdayStr, dailySeed, getDaily, playDaily,
-  isDailyAvailable, rewardStatus, claimReward,
+  dayStr, yesterdayStr, dailySeed, getDaily, playDaily, grantDailyAttempt,
+  dailyAttemptsTotal, isDailyAvailable, rewardStatus, claimReward,
   rewardTexts, taskText, attemptsText, getRewardDays,
 } from '../utils/daily';
 import { SoundSystem } from '../systems/SoundSystem';
@@ -600,11 +600,12 @@ export class MainMenu extends Phaser.Scene {
         wordWrap: { width: panelW - 24 },
       })
       .setOrigin(0, 0);
-    // Статус: победа (счёт/цель), остаток попыток или «кончились»
+    // Статус: победа (счёт/цель), остаток попыток или «кончились».
+    // Всего попыток — базовые + выигранные за рекламу.
     const status = daily.won
       ? t('dailyDone', { s: daily.score, t: daily.task.target })
       : isDailyAvailable()
-        ? attemptsText(daily.attemptsUsed, daily.task.attempts)
+        ? attemptsText(daily.attemptsUsed, dailyAttemptsTotal())
         : t('dailyNoAttempts');
     const dStatus = this.add
       .text(-panelW / 2 + 12, panelH / 2 - 46, t('dailyStatus', { s: status }), {
@@ -622,13 +623,26 @@ export class MainMenu extends Phaser.Scene {
       const tryBtn = this.makeTextButton(tryGX, tryGY, t('dailyTry'), bodySize - 2, '#d7263d', true, () => {
         if (!isDailyAvailable()) return;
         playDaily(); // попытка тратится на входе
-        const t = getDaily().task;
-        this.scene.start(SCENES.GAME, { daily: true, seed: dailySeed(), task: { target: t.target, maxFlips: t.maxFlips } });
+        const task = getDaily().task;
+        this.scene.start(SCENES.GAME, { daily: true, seed: dailySeed(), task: { target: task.target, maxFlips: task.maxFlips } });
       });
       // Пункт 2: рамка как у «Все достижения», но красная
       const tryFrame = this.add.rectangle(tryGX, tryGY, 180, 34);
       tryFrame.setStrokeStyle(2, gameConfig.colors.red);
       zone.add([tryFrame, tryBtn]);
+    } else if (!daily.won) {
+      // Попытки кончились, задача не пройдена: та же кнопка предлагает
+      // посмотреть рекламу за +1 попытку. Досмотрел — кнопка снова «Попробовать».
+      const adBtn = this.makeTextButton(tryGX, tryGY, t('dailyWatchAd'), bodySize - 2, '#d7263d', true, () => {
+        getPlatform().showRewardedVideo(() => {
+          grantDailyAttempt();
+          getPlatform().saveCloud(); // попытка в облако (тихо)
+          this.scene.restart(); // панель перестроится: кнопка снова «Попробовать»
+        });
+      });
+      const adFrame = this.add.rectangle(tryGX, tryGY, 180, 34);
+      adFrame.setStrokeStyle(2, gameConfig.colors.red);
+      zone.add([adFrame, adBtn]);
     } else {
       // Попытка потрачена: победа — «ПРОЙДЕНА», провал/выход — «СЫГРАНО»
       const doneLabel = daily.won ? t('dailyWon') : t('dailyPlayed');
@@ -957,6 +971,7 @@ export class MainMenu extends Phaser.Scene {
     if (rewardStatus().claimedToday || !this.rw) return;
     const RT = rewardTexts();
     claimReward();
+    getPlatform().saveCloud(); // серия в облако (тихо)
     addRewardClaim();
     syncAchievements(loadStats());
     SoundSystem.play(this, 'victory');

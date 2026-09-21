@@ -77,6 +77,7 @@ const STR: Record<string, { ru: string; en: string }> = {
   dailyNoAttempts: { ru: 'Попытки кончились', en: 'No attempts left' },
   dailyStatus: { ru: 'Статус: {s}', en: 'Status: {s}' },
   dailyTry: { ru: 'ПОПРОБОВАТЬ', en: 'TRY' },
+  dailyWatchAd: { ru: 'СМОТРЕТЬ РЕКЛАМУ', en: 'WATCH AD' },
   dailyWon: { ru: 'ПРОЙДЕНА', en: 'DONE' },
   dailyPlayed: { ru: 'СЫГРАНО', en: 'PLAYED' },
   dailyNext: { ru: 'Следующая через {t}', en: 'Next in {t}' },
@@ -132,6 +133,23 @@ const STR: Record<string, { ru: string; en: string }> = {
     ru: 'Серия наград открывает камни: {s} дней — Каменные, {m} — Мистические. Пропуск гасит звёзды.',
     en: 'Reward streak unlocks stones: {s} days — Stone, {m} — Mystic. Missing a day resets the stars.',
   },
+  how8a: {
+    ru: 'Ход: тап −{tap}, обмен −{drag}, эхо −{echo} сек.',
+    en: 'Move: tap −{tap}, swap −{drag}, echo −{echo} sec.',
+  },
+  how8b: {
+    ru: 'Равновесие с линией: +{bonus} сек.',
+    en: 'Balanced move with a line: +{bonus} sec.',
+  },
+  how8c: {
+    ru: 'Перекос: {list}.',
+    en: 'Skew: {list}.',
+  },
+  how8d: {
+    ru: 'Линия N: лицом Свет+N, Тьма−(N−2); изнанкой наоборот.',
+    en: 'Line of N: face-up Light+N, Dark−(N−2); face-down the other way round.',
+  },
+  secShort: { ru: 'с', en: 's' },
   colClassic: { ru: 'КЛАССИЧЕСКИЙ', en: 'CLASSIC' },
   colStone: { ru: 'КАМЕННЫЕ', en: 'STONE' },
   colMystic: { ru: 'МИСТИЧЕСКИЙ', en: 'MYSTIC' },

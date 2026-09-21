@@ -74,7 +74,25 @@ export class HowToScene extends Phaser.Scene {
       list, leftX, ty, help.width, '7',
       t('how7', { s: unlockStreak('stone'), m: unlockStreak('mystic') }),
       helpStyle,
-    );
+    ) + 12;
+    // Пункт 8: таблица времени и очков — числами из конфига, а не руками
+    // (бонус — текущей сложности, перекос — из skewTable).
+    const skewParts: string[] = [];
+    let rangeStart = 1;
+    for (const row of gameConfig.skewTable) {
+      if (row.maxDiff <= 0) continue; // равновесие — отдельной строкой выше
+      const range = row.maxDiff === Infinity || rangeStart >= row.maxDiff
+        ? `${rangeStart}+`
+        : `${rangeStart}–${row.maxDiff}`;
+      skewParts.push(`${range} → −${row.penalty} ${t('secShort')}`);
+      rangeStart = row.maxDiff + 1;
+    }
+    const how8 = [
+      t('how8a', { tap: gameConfig.tapCost, drag: gameConfig.dragCost, echo: gameConfig.echoCost }),
+      t('how8c', { list: skewParts.join('; ') }),
+      t('how8d'),
+    ].join('\n');
+    ty = this.addHangingPoint(list, leftX, ty, help.width, '8', how8, helpStyle);
     const textBottom = ty;
 
     // Схемы: три столбца, поэтому камни уменьшены — иначе не влезут
@@ -158,15 +176,16 @@ export class HowToScene extends Phaser.Scene {
     });
   }
 
-  // Пункт с висячим отступом (как пункт 1, так оформлены 6 и 7):
+  // Пункт с висячим отступом (как пункт 1, так оформлены 6, 7 и 8):
   // номер отдельно слева, тело начинается под первым словом.
+  // Отступ — номер + один пробел.
   // Возвращает низ блока (следующий пункт — ниже с зазором).
   private addHangingPoint(
     list: Phaser.GameObjects.Container, leftX: number, y: number, width: number,
     num: string, text: string,
     style: { color: string; fontSize: string; lineSpacing: number; align: string },
   ): number {
-    const probe = this.add.text(0, 0, `${num} `, { fontSize: style.fontSize });
+    const probe = this.add.text(0, 0, `${num}. `, { fontSize: style.fontSize });
     const indent = probe.width;
     probe.destroy();
     const numText = this.add.text(leftX, y, `${num}.`, { ...style }).setOrigin(0, 0);

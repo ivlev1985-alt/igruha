@@ -1,8 +1,7 @@
 // ============================================================
 // daily.ts — задача дня и ежедневные награды (Main_menu.md, зоны 4–5).
-// Задача дня: фиксированный сид (один у всех), одна попытка в день.
-// Награды: серия входов, 7 ячеек, сегодня +2 пропуска, 7-й день +5.
-// Пропуски — задел под rewarded-рекламу (Этап 4), пока просто копятся.
+// Задача дня: фиксированный сид (один у всех), попытки базовые + бонусные за рекламу.
+// Награды: серия входов, 14 ячеек, звёзды и сеты камней. Валюты-пропусков нет.
 // ============================================================
 import { SAVE_KEYS } from './constants';
 import { seedFromString } from './rng';
@@ -125,20 +124,25 @@ interface DailyState {
   day: string;
   task: DailyTask;
   attemptsUsed: number;
+  bonusAttempts: number; // добавочные попытки за рекламу (не сгорают до конца дня)
   won: boolean;
   score: number;
 }
 
 export function getDaily(): DailyState {
   const fresh = (): DailyState => ({
-    day: dayStr(), task: getDailyTask(), attemptsUsed: 0, won: false, score: 0,
+    day: dayStr(), task: getDailyTask(), attemptsUsed: 0, bonusAttempts: 0, won: false, score: 0,
   });
   try {
     const raw = localStorage.getItem(SAVE_KEYS.DAILY);
     if (raw) {
       const s = JSON.parse(raw) as DailyState;
-      // Тот же день и задача сходится — продолжаем
-      if (s.day === dayStr() && s.task) return s;
+      // Тот же день и задача сходится — продолжаем (старые сейвы без bonusAttempts чиним)
+      if (s.day === dayStr() && s.task) {
+        if (typeof s.attemptsUsed !== 'number') s.attemptsUsed = 0;
+        if (typeof s.bonusAttempts !== 'number') s.bonusAttempts = 0;
+        return s;
+      }
     }
   } catch {
     // Игнорируем
@@ -161,6 +165,19 @@ export function playDaily(): void {
   setDaily(s);
 }
 
+// +1 попытка за просмотр рекламы (кнопка вместо «Попробовать», когда попытки кончились)
+export function grantDailyAttempt(): void {
+  const s = getDaily();
+  s.bonusAttempts++;
+  setDaily(s);
+}
+
+// Всего попыток сегодня: базовые по задаче + выигранные за рекламу
+export function dailyAttemptsTotal(): number {
+  const s = getDaily();
+  return s.task.attempts + (s.bonusAttempts || 0);
+}
+
 // Партия дня окончена (победа = взяли цель до лимита переворотов)
 export function finishDaily(won: boolean, score: number): void {
   const s = getDaily();
@@ -172,7 +189,7 @@ export function finishDaily(won: boolean, score: number): void {
 // Можно ли играть задачу сегодня? (остались попытки и ещё не выиграна)
 export function isDailyAvailable(): boolean {
   const s = getDaily();
-  return !s.won && s.attemptsUsed < s.task.attempts;
+  return !s.won && s.attemptsUsed < s.task.attempts + (s.bonusAttempts || 0);
 }
 
 // --- Награды: {lastClaim, streak} ---
@@ -189,12 +206,6 @@ function getReward(): RewardState {
     // Игнорируем
   }
   return { lastClaim: '', streak: 0 };
-}
-
-// Награда за день недели (1–7) — из rewards.json
-export function rewardForDay(pos: number): number {
-  const i = Math.min(WEEK.length, Math.max(1, pos)) - 1;
-  return WEEK[i] ?? 2;
 }
 
 // Тексты наград и задачи дня — из JSON (пункт 3)
@@ -245,16 +256,9 @@ export function getRewardDays(): number {
   return Math.max(1, WEEK.length);
 }
 
-function getPasses(): number {
-  try {
-    return parseInt(localStorage.getItem(SAVE_KEYS.PASSES) ?? '0', 10) || 0;
-  } catch {
-    return 0;
-  }
-}
-
-// Забрать награду дня. Возвращает позицию и сколько пропусков дали.
-export function claimReward(): { pos: number; amount: number; passes: number } {
+// Забрать награду дня. Возвращает позицию в полосе.
+// Валюты-пропусков больше нет (удалены): награда — это серия, звёзды и сеты.
+export function claimReward(): { pos: number } {
   const today = dayStr();
   const r = getReward();
   let streak: number;
@@ -266,13 +270,10 @@ export function claimReward(): { pos: number; amount: number; passes: number } {
     streak = 1; // первый раз или пропуск — заново
   }
   const pos = ((streak - 1) % Math.max(1, WEEK.length)) + 1;
-  const amount = rewardForDay(pos);
-  const passes = getPasses() + amount;
   try {
     localStorage.setItem(SAVE_KEYS.REWARD, JSON.stringify({ lastClaim: today, streak }));
-    localStorage.setItem(SAVE_KEYS.PASSES, String(passes));
   } catch {
     // Игнорируем
   }
-  return { pos, amount, passes };
+  return { pos };
 }

@@ -47,10 +47,17 @@ export interface Platform {
   showFullscreenAdv(onClose: () => void): void;
   // То же, но не чаще паузы (для естественных перерывов)
   showFullscreenAdvThrottled(onClose: () => void): void;
+  // Наградное видео: onRewarded — ТОЛЬКО если игрок досмотрел и заработал
+  // (закрыл раньше времени — не вызывается). Нет рекламы — сразу награда (тест).
+  showRewardedVideo(onRewarded: () => void): void;
   // Топ доски + строка игрока (фолбэк — локальный ряд)
   getLeaderboard(localBest: number): Promise<RatingRow[]>;
   // Записать рекорд на доску (тихо, без ожидания)
   submitScore(score: number): void;
+  // Облачные сохранения: выгрузить локальные (с дебаунсом, тихо)
+  saveCloud(): void;
+  // Втянуть облачные, если новее локальных (true = применили)
+  loadCloud(): Promise<boolean>;
 }
 
 // --- Локальный режим: всё тихо, игра как сейчас ---
@@ -81,6 +88,14 @@ class LocalPlatform implements Platform {
     onClose(); // локально throttling не нужен
   }
 
+  showRewardedVideo(onRewarded: () => void): void {
+    try {
+      onRewarded(); // локально рекламы нет — сразу награда (тестовый режим)
+    } catch {
+      // Тихо игнорируем
+    }
+  }
+
   async getLeaderboard(localBest: number): Promise<RatingRow[]> {
     return localRating(localBest);
   }
@@ -88,11 +103,20 @@ class LocalPlatform implements Platform {
   submitScore(): void {
     // Некуда писать — только локальный рекорд
   }
+
+  saveCloud(): void {
+    // Локально сохранять нечего — всё уже в localStorage
+  }
+
+  async loadCloud(): Promise<boolean> {
+    return false; // локально втягивать нечего
+  }
 }
 
 // Минимальные типы SDK (полный пакет не тянем, guard на каждом шаге)
 interface YaAdv {
   showFullscreenAdv(options: { callbacks?: { onClose?: () => void; onError?: () => void } }): void;
+  showRewardedVideo(options: { callbacks?: { onRewarded?: () => void; onClose?: () => void; onError?: () => void } }): void;
 }
 
 interface YaFeatures {
@@ -103,6 +127,8 @@ interface YaFeatures {
 interface YaPlayer {
   getName(): string;
   getUniqueID?(): string;
+  getData(keys?: string[]): Promise<Record<string, unknown>>;
+  setData(data: Record<string, unknown>): Promise<void>;
 }
 
 interface YaEntryPlayer {
@@ -160,11 +186,14 @@ class YandexPlatform implements Platform {
   private name = '';
   private uid = '';
   private lbCache: { at: number; rows: RatingRow[] } | null = null;
+  private playerP: Promise<YaPlayer> | null = null;
+  private saveTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(private ysdk: YaGamesSDK) {
-    // Имя и id подтянутся сами; пока нет — гость
+    // Игрок подтянется сам; пока нет — гость
     try {
-      this.ysdk.getPlayer().then(
+      this.playerP = this.ysdk.getPlayer();
+      this.playerP.then(
         (p) => {
           try {
             const n = p.getName();
@@ -177,10 +206,12 @@ class YandexPlatform implements Platform {
         },
         () => {
           // Не авторизован — гость
+          this.playerP = null;
         },
       );
     } catch {
       // Молча остаёмся гостем
+      this.playerP = null;
     }
   }
 
@@ -254,6 +285,33 @@ class YandexPlatform implements Platform {
     this.showFullscreenAdv(onClose);
   }
 
+  // Наградное видео за +1 попытку дня: награда только за досмотр.
+  // Закрыл раньше или ошибка — onRewarded не зовём, попытка не даётся.
+  showRewardedVideo(onRewarded: () => void): void {
+    const grant = (): void => {
+      try {
+        onRewarded();
+      } catch {
+        // Колбэк игры не должен ронять площадку
+      }
+    };
+    try {
+      if (!this.ysdk.adv || typeof this.ysdk.adv.showRewardedVideo !== 'function') {
+        grant(); // тестовый режим без рекламы — сразу награда
+        return;
+      }
+      this.ysdk.adv.showRewardedVideo({
+        callbacks: {
+          onRewarded: grant,
+          onClose: () => { /* без награды — просто закрыли */ },
+          onError: () => { /* без награды */ },
+        },
+      });
+    } catch {
+      grant();
+    }
+  }
+
   // Топ-10 доски + строка игрока (доски нет в консоли — локальный ряд)
   async getLeaderboard(localBest: number): Promise<RatingRow[]> {
     try {
@@ -313,6 +371,111 @@ class YandexPlatform implements Platform {
       // Тихо игнорируем
     }
   }
+
+  // Ключи localStorage, уезжающие в облако. КОНТРАКТ: имена обязаны
+  // совпадать с ключами в storage.ts / skins.ts / lang.ts / daily.ts.
+  // Новый ключ сейва — добавить сюда, иначе он не синхронизируется.
+  private cloudKeys(): string[] {
+    return [
+      'tct_best', // личный рекорд (storage.ts)
+      'tct_games', // счётчик партий (storage.ts)
+      'tct_stats', // общая статистика (stats.ts)
+      'tct_ach', // открытые достижения (Achievements.ts)
+      'tct_daily', // задача дня (daily.ts)
+      'tct_reward', // серия наград (daily.ts)
+      'tct_skin', // выбранный сет (storage.ts)
+      'tct_skin_unlocks', // открытые сеты (skins.ts)
+      'tct_lang', // язык (lang.ts)
+      'tct_labels', // подписи на камнях (storage.ts)
+      'tct_difficulty', // сложность (storage.ts)
+      'tct_sound', // звук вкл/выкл (SoundSystem.ts)
+    ];
+  }
+
+  private cloudTsKey(): string {
+    return 'tct_cloud_ts'; // метка последней синхронизации (last-write-wins)
+  }
+
+  private readLocalTs(): number {
+    try {
+      return Number(localStorage.getItem(this.cloudTsKey())) || 0;
+    } catch {
+      return 0;
+    }
+  }
+
+  // Выгрузить локальные сейвы в облако (с дебаунсом: дёргаем часто, шлём редко)
+  saveCloud(): void {
+    try {
+      if (this.saveTimer) clearTimeout(this.saveTimer);
+      this.saveTimer = setTimeout(() => {
+        this.saveTimer = null;
+        void this.pushCloud();
+      }, 800);
+    } catch {
+      // Тихо игнорируем
+    }
+  }
+
+  private async pushCloud(): Promise<void> {
+    try {
+      const player = this.playerP ? await withTimeout(this.playerP, 3500) : null;
+      if (!player) return;
+      const data: Record<string, unknown> = {};
+      for (const k of this.cloudKeys()) {
+        try {
+          const v = localStorage.getItem(k);
+          if (v !== null) data[k] = v;
+        } catch {
+          // Один битый ключ не роняет весь сейв
+        }
+      }
+      const ts = Date.now();
+      data.__ts = ts;
+      await withTimeout(player.setData(data), 3500);
+      try {
+        localStorage.setItem(this.cloudTsKey(), String(ts));
+      } catch {
+        // Тихо игнорируем
+      }
+    } catch {
+      // Тихо игнорируем
+    }
+  }
+
+  // Втянуть облако, если оно новее локального. Вызывает Preloader до меню.
+  async loadCloud(): Promise<boolean> {
+    try {
+      const player = this.playerP ? await withTimeout(this.playerP, 3500) : null;
+      if (!player) return false;
+      const data = await withTimeout(player.getData(), 3500);
+      if (!data || typeof data !== 'object') return false;
+      const remoteTs = Number((data as Record<string, unknown>).__ts) || 0;
+      if (remoteTs <= this.readLocalTs()) return false; // локальное свежее — не трогаем
+      let applied = false;
+      for (const k of this.cloudKeys()) {
+        const v = (data as Record<string, unknown>)[k];
+        if (typeof v === 'string') {
+          try {
+            localStorage.setItem(k, v);
+            applied = true;
+          } catch {
+            // Один битый ключ не роняет весь сейв
+          }
+        }
+      }
+      if (applied) {
+        try {
+          localStorage.setItem(this.cloudTsKey(), String(remoteTs));
+        } catch {
+          // Тихо игнорируем
+        }
+      }
+      return applied;
+    } catch {
+      return false;
+    }
+  }
 }
 
 // --- Синглтон: стартуем локально, при живом SDK переключаемся ---
@@ -329,12 +492,48 @@ export function platformReady(): void {
   backend.ready();
 }
 
+export interface InitResult {
+  backend: 'yandex' | 'local';
+}
+
+let initPromise: Promise<InitResult> | null = null;
+
 // Инициализация SDK с таймаутом (офлайн/нет скрипта — остаёмся локально).
 // Не блокирует игру: вызывается и забывается (void в main.ts).
-export async function initPlatform(timeoutMs = 3500): Promise<void> {
+// ВАЖНО: вне iframe SDK присутствует, но неработоспособен (нет родителя
+// для postMessage) — проверяем фрейм ПЕРВЫМ, иначе сломанный бэкенд
+// убьёт награды/лидерборд и на GitHub Pages, и в локальном тесте.
+function runningFramed(): boolean {
+  try {
+    return window.self !== window.top;
+  } catch {
+    return true; // кросс-доменный фрейм — считаем, что мы во фрейме
+  }
+}
+
+export function initPlatform(timeoutMs = 3500): Promise<InitResult> {
+  if (!initPromise) initPromise = doInit(timeoutMs);
+  return initPromise;
+}
+
+// Дождаться инициализации (с потолком): Preloader ждёт облако до меню
+export async function awaitPlatform(ms = 4000): Promise<void> {
+  if (!initPromise) return;
+  try {
+    await Promise.race([
+      initPromise,
+      new Promise((res) => setTimeout(res, ms)),
+    ]);
+  } catch {
+    // Тихо игнорируем
+  }
+}
+
+async function doInit(timeoutMs: number): Promise<InitResult> {
+  if (!runningFramed()) return { backend: 'local' }; // топ-левел: точно не Яндекс
   try {
     const w = window as unknown as { YaGames?: { init(): Promise<YaGamesSDK> } };
-    if (!w.YaGames || typeof w.YaGames.init !== 'function') return;
+    if (!w.YaGames || typeof w.YaGames.init !== 'function') return { backend: 'local' };
     const ysdk = await new Promise<YaGamesSDK | null>((resolve) => {
       let done = false;
       const finish = (v: YaGamesSDK | null): void => {
@@ -363,8 +562,11 @@ export async function initPlatform(timeoutMs = 3500): Promise<void> {
     if (ysdk) {
       backend = new YandexPlatform(ysdk);
       if (readyCalled) backend.ready();
+      return { backend: 'yandex' };
     }
+    return { backend: 'local' };
   } catch {
     // Любой сбой — остаёмся в локальном режиме
+    return { backend: 'local' };
   }
 }

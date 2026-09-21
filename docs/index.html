@@ -5,9 +5,21 @@
     <!-- Вьюпорт для мобильных: запрет зума жестами, полноэкранный режим -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Эхо двух миров</title>
-    <!-- SDK Яндекс.Игр: если скрипт не загрузился (локальный тест, другая
-         площадка) — игра тихо работает в локальном режиме (см. platform.ts) -->
-    <script src="https://yandex.ru/games/sdk/v2"></script>
+    <!-- SDK Яндекс.Игр: подгружаем ТОЛЬКО во фрейме (на самой площадке).
+         Вне iframe (локальный тест, GitHub Pages, другие площадки) скрипта
+         нет вообще: ни шума в консоли, ни сломанных вызовов.
+         Игра при отсутствии YaGames тихо работает локально (см. platform.ts) -->
+    <script>
+      try {
+        var __framed = false;
+        try { __framed = window.self !== window.top; } catch (e) { __framed = true; }
+        if (__framed) {
+          var __ysdk = document.createElement('script');
+          __ysdk.src = 'https://yandex.ru/games/sdk/v2';
+          document.head.appendChild(__ysdk);
+        }
+      } catch (e) {}
+    </script>
     <style>
       /* Минимальные стили: чёрный фон, без скролла и контекстного меню */
       html, body {
@@ -29,7 +41,7 @@
         margin: 0 auto;
       }
     </style>
-    <script type="module" crossorigin src="./assets/index-BUto6ejA.js"></script>
+    <script type="module" crossorigin src="./assets/index-DfkCTnei.js"></script>
   </head>
   <body>
     <div id="game"></div>

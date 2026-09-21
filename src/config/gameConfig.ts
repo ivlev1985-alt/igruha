@@ -132,7 +132,7 @@ export const gameConfig = {
 
   // --- Звук ---
   soundEnabledByDefault: true,
-  // Список звуков. Пока файлы-заглушки (Этап 4).
+  // Список звуков. Настоящие MP3 из public/assets/sounds.
   // Если файла нет — SoundSystem молча работает без звука, без ошибок.
   sounds: {
     tap: 'assets/sounds/tap.mp3',
