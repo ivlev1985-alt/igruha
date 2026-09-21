@@ -82,14 +82,6 @@ export class MainMenu extends Phaser.Scene {
     const landscape = w >= h * 0.85;
     this.isLandscape = landscape;
 
-    // ⬇⬇⬇ ВРЕМЕННАЯ ОТЛАДОЧНАЯ РАМКА — удалить после настройки
-    // const dbg = this.add.graphics();
-    // dbg.lineStyle(2, 0x00ff00, 1);
-    // dbg.strokeRect(this.bx, 0, this.bw, this.scale.height);
-    // ⬆ зелёная рамка = границы полосы контента
-    // dbg.setDepth(9999);
-
-
     // Пункт 1: контент — в полосе по центру, фон — на весь экран
     this.bw = Math.min(w, gameConfig.contentMaxWidth);
     this.bx = (w - this.bw) / 2;
