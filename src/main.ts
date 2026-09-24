@@ -48,7 +48,17 @@ const game = new Phaser.Game(config);
 
 // Площадка определяется сама (Яндекс при живом SDK, иначе локально).
 // Не ждём: игра стартует сразу, апгрейд бэкенда догонит.
-void initPlatform();
+// Если SDK-язык сменил стартовый уже после построения меню —
+// перестраиваем меню один раз (требование 2.14: язык на старте).
+void initPlatform().then((res) => {
+  try {
+    if (res && res.langChanged && game.scene.isActive('MainMenu')) {
+      game.scene.getScene('MainMenu').scene.restart();
+    }
+  } catch {
+    // Тихо игнорируем
+  }
+});
 
 // Звук: пробуем фоновую музыку (до первого жеста браузер запрещает —
 // дальше договоримся по pointerdown внутри SoundSystem.boot).

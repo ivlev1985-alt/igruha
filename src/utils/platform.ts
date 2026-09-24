@@ -6,7 +6,7 @@
 // Поэтому SDK Яндекса НЕ помешает другим площадкам: для каждой
 // следующей добавится свой адаптер, игра не меняется.
 // ============================================================
-import { t } from './lang';
+import { t, setSdkLang, currentLang } from './lang';
 import { localRating, type RatingRow } from './rating';
 import { SoundSystem } from '../systems/SoundSystem';
 
@@ -154,6 +154,7 @@ interface YaLeaderboards {
 interface YaGamesSDK {
   features?: YaFeatures;
   adv?: YaAdv;
+  environment?: { i18n?: { lang?: string } };
   getPlayer(options?: { scopes?: boolean }): Promise<YaPlayer>;
   getLeaderboards(): Promise<YaLeaderboards>;
 }
@@ -507,6 +508,8 @@ export function platformReady(): void {
 
 export interface InitResult {
   backend: 'yandex' | 'local';
+  // Язык площадки сменил стартовый (меню уже построено не на том языке)
+  langChanged: boolean;
 }
 
 let initPromise: Promise<InitResult> | null = null;
@@ -543,10 +546,10 @@ export async function awaitPlatform(ms = 4000): Promise<void> {
 }
 
 async function doInit(timeoutMs: number): Promise<InitResult> {
-  if (!runningFramed()) return { backend: 'local' }; // топ-левел: точно не Яндекс
+  if (!runningFramed()) return { backend: 'local', langChanged: false }; // топ-левел: точно не Яндекс
   try {
     const w = window as unknown as { YaGames?: { init(): Promise<YaGamesSDK> } };
-    if (!w.YaGames || typeof w.YaGames.init !== 'function') return { backend: 'local' };
+    if (!w.YaGames || typeof w.YaGames.init !== 'function') return { backend: 'local', langChanged: false };
     const ysdk = await new Promise<YaGamesSDK | null>((resolve) => {
       let done = false;
       const finish = (v: YaGamesSDK | null): void => {
@@ -575,11 +578,22 @@ async function doInit(timeoutMs: number): Promise<InitResult> {
     if (ysdk) {
       backend = new YandexPlatform(ysdk);
       if (readyCalled) backend.ready();
-      return { backend: 'yandex' };
+      // Требование 2.14: читаем язык площадки ПРИ ЗАПУСКЕ
+      // (debug-панель зеленеет именно от этого чтения).
+      // Preloader ждёт init через awaitPlatform — меню строится уже на нём.
+      // Сохранённый ручной выбор побеждает (Яндекс это разрешает).
+      const before = currentLang();
+      try {
+        const code = ysdk.environment?.i18n?.lang ?? '';
+        if (code) setSdkLang(code);
+      } catch {
+        // Молча остаёмся на прежнем языке
+      }
+      return { backend: 'yandex', langChanged: currentLang() !== before };
     }
-    return { backend: 'local' };
+    return { backend: 'local', langChanged: false };
   } catch {
     // Любой сбой — остаёмся в локальном режиме
-    return { backend: 'local' };
+    return { backend: 'local', langChanged: false };
   }
 }

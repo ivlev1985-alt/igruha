@@ -11,13 +11,27 @@ export type Lang = 'ru' | 'en';
 
 const LANG_KEY = 'tct_lang';
 
+// Язык из SDK Яндекса (требование 2.14: автоопределение при запуске).
+// Ставится один раз при инициализации платформы, до построения меню.
+let sdkLang: Lang | null = null;
+
+export function setSdkLang(code: string): void {
+  const c = (code || '').toLowerCase().slice(0, 2);
+  sdkLang = c === 'ru' ? 'ru' : c === 'en' ? 'en' : null;
+  // Незнакомый код (tr, …) — null, дальше решает фолбэк detect()
+}
+
 function detect(): Lang {
   try {
     const saved = localStorage.getItem(LANG_KEY);
+    // Сохранённый выбор (ручной тумблер) — побеждает автоопределение.
+    // Яндекс это явно разрешает: после перезагрузки индикатор может не гореть.
     if (saved === 'en' || saved === 'ru') return saved;
   } catch {
-    // Недоступно — определяем по браузеру
+    // Недоступно — идём дальше
   }
+  // Требование 2.14: язык площадки при запуске
+  if (sdkLang) return sdkLang;
   try {
     if (typeof navigator !== 'undefined' && navigator.language.toLowerCase().startsWith('en')) {
       return 'en';
